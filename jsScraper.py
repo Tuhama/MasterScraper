@@ -20,9 +20,9 @@ def scrape_files(soup, site_info):
     # links = soup.find_all('link', {"href": True})
     #
     # images = soup.find_all('img', {"src": True})
-
-    print(len(scripts))
-    print(len(unsafe_scripts))
+    #
+    # print(len(scripts))
+    # print(len(unsafe_scripts))
 
     # check for mixed content
     # check for external files

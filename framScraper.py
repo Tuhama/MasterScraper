@@ -11,11 +11,18 @@ def scrapeframes(soup, site_info):
         site_info.sandboxedframes = True
 
     for iframe in sandboxed_frames:
-        print(iframe["sandbox"])
+        print(site_info.name)
+        print("sandbox:" + str(iframe["sandbox"]))
+
+    site_info.secureframing = test_secure_framing(site_info)
+
 
 def test_secure_framing(site_info):
-    if "frame_ancestors" in site_info.csp or site_info.xframe:
-        site_info.secureframing = True
+    frame_ancestors = 1 if "frame_ancestors" in site_info.cspMeta or "frame_ancestors" in site_info.cspHeader else None
+    if frame_ancestors or site_info.xframe:
+        return True
+    else:
+        return False
 
 
 

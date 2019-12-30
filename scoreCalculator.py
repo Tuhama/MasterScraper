@@ -41,7 +41,7 @@ for site in sites:
     xframe = 1 if site["xframe"] else 0
     frame_ancestors = 1 if "frame_ancestors" in site["cspMeta"] or "frame_ancestors" in site["cspHeader"] else 0
 
-    secure_framing_score = 50/100 * xframe+ 50/100 * frame_ancestors
+    secure_framing_score = 50/100 * xframe + 50/100 * frame_ancestors
 
     positive_score = 40/100 * communication_score + 40/100 * xss_score + 30/100 * secure_framing_score
 

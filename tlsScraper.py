@@ -2,7 +2,8 @@
 # #import ssl
 # from OpenSSL import SSL
 # import OpenSSL
-#
+#import sslyze
+
 # def scrape_certs(site_info):
     #     try:
     #         server_tester = ServerConnectivityTester(

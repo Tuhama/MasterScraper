@@ -3,7 +3,7 @@ import json
 import urllib3
 
 from bs4 import BeautifulSoup
-import certifi
+#import certifi
 # from tlsScraper import scrape_certs
 from jsScraper import scrape_files
 from framScraper import scrapeframes
@@ -19,8 +19,7 @@ response = 0
 soup = 0
 
 
-# sites = [{"id": 1, "rank": 1, "name": "hiast.edu.sy"}, {"id": 2, "rank": 2, "name": "www.sana.sy"}]
-with open('jsonFiles/syrianSites.json', 'r') as f:
+with open('jsonFiles/finalSites.json', 'r') as f:
     sites = json.load(f)
 
 sites_info = []
@@ -29,7 +28,8 @@ unsecure_sites = []
 
 for site in sites:
     try:
-        response = requests.get('https://' + site['name'], verify=False, timeout=(10, 10),
+        print(site)
+        response = requests.get('https://' + site, verify=False, timeout=(10, 10),
                                 headers={'User-Agent': user_agent})
         secure_sites.append(site)
 
@@ -43,12 +43,17 @@ for site in sites:
         unsecure_sites.append(site)
 
 for site in sites:
-    _site_info = SiteInfo(site['name'], site['rank'])
-    # , None, None, None, None, None, None, None, [], None, None, None, None, None,None,None,None, None, None, None, None)
+    site_type = None
+    if ".edu" in site:
+        site_type = "edu"
+    elif ".gov" in site:
+        site_type = "gov"
+
+    _site_info = SiteInfo(site,site_type)
 
     try:
         print(site)
-        response = requests.get('http://' + site['name'], verify=False, timeout=(30, 30),
+        response = requests.get('http://' + site, verify=False, timeout=(30, 30),
                                 headers={'User-Agent': user_agent})
         soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -57,16 +62,18 @@ for site in sites:
         scrape_files(soup, _site_info)
         scrapeframes(soup, _site_info)
         scrape_tokens(soup, _site_info)
-        if site in secure_sites:
-            # scrape_certs(_site_info)
-            print(site)
+
+        #if site in secure_sites:
+            #scrape_certs(_site_info)
+            #print(site)
     except requests.exceptions.RequestException as err:
         print(err)
     sites_info.append(_site_info.__dict__)
 
 f = open("jsonFiles/SyrianSitesSecurityInfo.json", "w")
-f.write(json.dumps(sites_info, indent=4, sort_keys=True))
+f.write(json.dumps(sites_info, indent=4))
 f.close()
-#print(servers)
-# print(str(sites_info))
+
+
+
 

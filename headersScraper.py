@@ -34,8 +34,6 @@ def scrape_headers(soup,response,site_info):
 
     site_info.server = response.headers.get('server')
     site_info.poweredBy = response.headers.get('X-Powered-By')
-    #servers.append(response.headers.get('server'))
-    # site_info.server = response.headers.get('server')
 
     if not response.cookies:
         site_info.cookies = []

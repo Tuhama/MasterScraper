@@ -1,5 +1,5 @@
 class SiteInfo:
-    def __init__(self, name, rank,
+    def __init__(self, name, type,
                  # tls, redirected, alg, hsts, pkp,
                  # xss, xcontent, xframe, cookies,
                  # cspMeta, cspHeader, xcspHeader, reportcspHeader,
@@ -7,7 +7,7 @@ class SiteInfo:
                  # mixedcontent, externaljs, server, poweredBy
                  ):
         self.name = name
-        self.rank = rank
+        self.type = type
         self.tls = None
         self.redirected = None
         self.alg = None
