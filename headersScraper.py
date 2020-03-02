@@ -20,7 +20,7 @@ def scrape_headers(soup,response,site_info):
     _cookies = []
     # first check for https
     if response.url.startswith("https"):
-        site_info.redirected = True
+        site_info.redirected = "True"
 
     site_info.hsts = response.headers.get('strict-transport-security')
 
@@ -43,4 +43,19 @@ def scrape_headers(soup,response,site_info):
             _cookie = {"name": cookie.name, "secure": cookie.secure, "httponly": has_http_only(cookie),
                        "samesite": has_samesite(cookie)}
             _cookies.append(_cookie)
+
+
+        for cookie in _cookies:
+            if cookie["httponly"]:
+                site_info.httponly_used = True
+                break
+
+        for cookie in _cookies:
+            if cookie["samesite"]:
+                site_info.samesite_used = True
+                break
+        for cookie in _cookies:
+            if cookie["secure"]:
+                site_info.secure_used = True
+                break
         site_info.cookies = _cookies
